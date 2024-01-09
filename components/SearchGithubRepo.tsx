@@ -18,59 +18,77 @@ import { useEffect, useState } from "react";
 import SearchRepoCard from "./SearchRepoCard";
 import SelectRepoBranch from "./SelectRepoBranch";
 
-const SearchGithubRepo = () => {
-  const { isOpen, onOpenChange, onOpen } = useDisclosure();
+const SearchGithubRepo: React.FC = () => {
+
   const [search, setSearch] = useState("");
   const [result, setResult] = useState<RepoType[]>([]);
+  const { isOpen, onOpenChange, onClose, onOpen } = useDisclosure();
   const [repo, setRepo] = useState<RepoType>();
   const {
     accessToken,
     user: { github_username },
   } = useSession();
+
+  const closeModalCleanup = () => {
+    setSearch("");
+    setResult([]);
+    setRepo(undefined);
+  };
+
   useEffect(() => {
     if (search.length < 1) {
       setResult([]);
-      return
+      return;
     }
     (async () => {
       try {
         const repo = await searchRepo({ github_username, accessToken, search });
-        console.log(repo.items);
         setResult(repo.items);
       } catch (error) {
         console.log(error);
       }
     })();
   }, [search, github_username, accessToken]);
+
   return (
     <>
       <Button onPress={onOpen}>Connect your Repository</Button>
-      <Modal size={"4xl"} isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        size={"4xl"}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onClose={() => onClose()}
+        motionProps={{
+          onAnimationComplete: () => {
+            if (!isOpen) {
+              closeModalCleanup();
+            }
+          },
+        }}
+        className="min-h-96"
+      >
         <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Connect Repository
-              </ModalHeader>
-              {console.log(repo)}
-              {repo ? (
-                <SelectRepoBranch />
-              ) : (
-                <>
-                  <ModalBody>
-                    <Input
-                      name="repo"
-                      type="text"
-                      placeholder="Search your Repositories"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </ModalBody>
-                  <SearchRepoCard repos={result} setRepo={setRepo} />
-                </>
-              )}
-            </>
-          )}
+          <>
+            <ModalHeader className="flex flex-col gap-1">
+              Connect Repository
+            </ModalHeader>
+            {repo ? (
+              <SelectRepoBranch repo={repo} onClose={onClose}/>
+            ) : (
+              <>
+                <ModalBody>
+                  <Input
+                    name="repo"
+                    type="text"
+                    placeholder="Search your Repositories"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </ModalBody>
+                <SearchRepoCard repos={result} setRepo={setRepo} />
+              </>
+            )}
+          </>
         </ModalContent>
       </Modal>
     </>

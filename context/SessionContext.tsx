@@ -25,6 +25,9 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
   const setLoading = (l: boolean) => {
     setFetching(l)
   }
+  const setGithub = (github: string) => {
+    setUser(prev => ({...prev, github_repo: github}))
+  }
 
   const value: AuthContextType = {
     accessToken,
@@ -35,6 +38,7 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
     isAuthenticated,
     user,
     setLeetcode,
+    setGithub
   }
 
   return (

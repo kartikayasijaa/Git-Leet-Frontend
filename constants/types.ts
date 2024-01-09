@@ -38,6 +38,7 @@ export type AuthContextType = {
   isAuthenticated: boolean;
   user: UserType;
   setLeetcode: (s: string) => void;
+  setGithub: (g: string) => void;
 };
 
 export type RepoSearchRes = {
@@ -49,4 +50,9 @@ export type RepoType = {
   id: string;
   name: string;
   html_url: string;
+  default_branch: string;
+};
+
+export type BranchType = {
+  name: string;
 };

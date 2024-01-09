@@ -1,5 +1,5 @@
-import LeetcodeModal from "@/components/LeetcodeModal"
-import SearchGithubRepo from "@/components/SearchGithubRepo"
+import LeetcodeModal from "@/components/LeetcodeModal";
+import SearchGithubRepo from "@/components/SearchGithubRepo";
 
 const User = () => {
   return (
@@ -7,7 +7,7 @@ const User = () => {
       <LeetcodeModal />
       <SearchGithubRepo />
     </>
-  )
-}
+  );
+};
 
-export default User
+export default User;
