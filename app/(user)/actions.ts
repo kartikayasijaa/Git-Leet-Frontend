@@ -2,6 +2,7 @@
 import { BranchType, RepoSearchRes, RepoType } from "@/constants/types";
 import {
   GET_BRANCH,
+  PUSH_URL,
   REPO_SEARCH,
   UPDATE_GITHUB,
   UPDATE_LEETCODE,
@@ -46,10 +47,11 @@ export const searchRepo = async ({
   search: string;
   accessToken: string;
 }) => {
+  const searchQuery = `user:${github_username} ${search}`;
   try {
-    const res = await fetch(`${REPO_SEARCH}/${github_username}/${search}`, {
+    const res = await fetch(`${REPO_SEARCH}?q=${searchQuery}`, {
       headers: {
-        Authorization: accessToken,
+        Authorization: `Bearer ${accessToken}`,
       },
       cache: "no-store",
     });
@@ -57,7 +59,6 @@ export const searchRepo = async ({
     if (!res.ok) {
       throw new Error("Error fetching");
     }
-
     const repo = (await res.json()) as RepoSearchRes;
     if (!repo.items) return { items: [] };
     return repo;
@@ -123,5 +124,26 @@ export const updateRepo = async (
   } catch (error) {
     console.error("Error updating Github:", error);
     throw error;
+  }
+};
+
+export const pushToGithub = async ({
+  accessToken,
+  userId,
+}: {
+  accessToken: string;
+  userId: string;
+}) => {
+  try {
+    const res = await fetch(`${PUSH_URL}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const result = await res.json()
+    console.log(result)
+    return result;
+  } catch (error) {
+    console.log(error)
   }
 };

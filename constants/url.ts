@@ -12,6 +12,9 @@ export const UPDATE_LEETCODE = `${LEETCODE_BASE_URL}/update`
 
 //Github
 export const GITHUB_BASE_URL = `${BASE_URL}/github`
-export const REPO_SEARCH = `${GITHUB_BASE_URL}/repo`
+export const REPO_SEARCH = `https://api.github.com/search/repositories`
 export const GET_BRANCH = `${GITHUB_BASE_URL}/branch`
 export const UPDATE_GITHUB = `${GITHUB_BASE_URL}/repo/update`
+
+//Push
+export const PUSH_URL = `${BASE_URL}/push`

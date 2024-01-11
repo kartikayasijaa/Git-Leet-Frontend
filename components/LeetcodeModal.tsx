@@ -1,5 +1,6 @@
 "use client";
 import { updateLeetcode } from "@/app/(user)/actions";
+import { SiLeetcode } from "react-icons/si";
 import useSession from "@/hooks/useSession";
 import {
   Modal,
@@ -10,6 +11,7 @@ import {
   Button,
   useDisclosure,
   Input,
+  Link,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
@@ -21,6 +23,7 @@ export type res = {
 
 export default function LeetcodeModal() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
   const {
     accessToken,
     user: { userId, leetcode_username },
@@ -29,6 +32,7 @@ export default function LeetcodeModal() {
   const [leetcode, setLeet] = useState("");
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const res = (await updateLeetcode(userId, accessToken, leetcode)) as res;
       if (res.leetcode_username) {
         setLeetcode(res.leetcode_username);
@@ -36,15 +40,31 @@ export default function LeetcodeModal() {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       {leetcode_username.length > 0 ? (
-        leetcode_username
+        <div className="flex items-center">
+          <SiLeetcode color={`white`} />{" "}
+          <Link
+            target={`_blank`}
+            size="lg"
+            underline="focus"
+            color={`foreground`}
+            href={`https://leetcode.com/${leetcode_username}`}
+            className="ml-2"
+          >
+            {leetcode_username}
+          </Link>
+        </div>
       ) : (
-        <Button onPress={onOpen}>Connect your Leetcode</Button>
+        <Button className="w-[200px]" onPress={onOpen}>
+          Connect your Leetcode
+        </Button>
       )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
@@ -63,7 +83,11 @@ export default function LeetcodeModal() {
                 />
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onPress={handleSubmit}>
+                <Button
+                  color="primary"
+                  onPress={handleSubmit}
+                  isLoading={loading}
+                >
                   Connect
                 </Button>
               </ModalFooter>

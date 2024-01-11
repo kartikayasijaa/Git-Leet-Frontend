@@ -1,45 +1,41 @@
-'use client'
-import { refreshToken } from '@/app/actions';
-import { AccessTokenType } from '@/constants/types';
-import { REFRESH_TOKEN } from '@/constants/url';
-import useSession from '@/hooks/useSession';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+"use client";
+import { refreshToken } from "@/app/actions";
+import { AccessTokenType } from "@/constants/types";
+import { REFRESH_TOKEN } from "@/constants/url";
+import useSession from "@/hooks/useSession";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import SpinnerComp from "../Spinner";
 
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-  const { accessToken, setAuth } = useSession()
-  const [show, setShow] = useState(false)
+export default function ProtectedRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const { accessToken, setAuth, user } = useSession();
+  const [show, setShow] = useState(false);
+
   useEffect(() => {
+    console.log(user)
     if (accessToken && accessToken.length > 1) {
-      setShow(true)
-      return
+      setShow(true);
+      return;
     }
-    (async()=>{
-      const result = await refreshToken()
-      setAuth(result)
-      setShow(true)
-    })()
-    // (async () => {
-    //   try {
-    //     const res = await fetch(REFRESH_TOKEN, {
-    //       credentials: 'include',
-    //       mode: 'cors',
-    //     })
-    //     if (!res.ok) {
-    //       router.push('/')
-    //     }
-    //     const result = await res.json() as AccessTokenType
-    //     if (result.access_token.length < 1) {
-    //       router.push('/')
-    //     }
-    //     setAuth(result)
-    //     setShow(true)
-    //   } catch (error) {
-    //     router.push('/')
-    //   }
-    // })()
-  }, [accessToken])
+    (async () => {
+      const result = await refreshToken();
+      if (
+        !result.access_token ||
+        (result.access_token && result.access_token.length <= 0)
+      ) {
+        return;
+      }
 
-  return <>{show ? children : "loading"}</>
+      setAuth(result);
+      setShow(true);
+    })();
+  }, [accessToken]);
+
+  return <>{show ? children : 
+    <div className="h-[80vh] flex justify-center items-center"> <SpinnerComp /> </div>}</>;
 }

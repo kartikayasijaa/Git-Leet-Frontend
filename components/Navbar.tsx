@@ -1,7 +1,7 @@
 import { GITHUB_AUTH_REDIRECT } from "@/constants/url";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import LoginButton from "./LoginButton";
-export default function NavbarComp() {
+export default function 	NavbarComp() {
   const menuItems = [
     "Profile",
     "Log Out",

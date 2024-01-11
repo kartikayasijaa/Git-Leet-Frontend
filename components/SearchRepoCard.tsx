@@ -15,7 +15,7 @@ export default function SearchRepoCard({
         repos.length > 0 &&
         repos.map((r, idx) => (
           <Card key={idx} className="m-auto my-4 w-11/12 cursor-pointer">
-            <CardHeader onClick={()=>setRepo(r)} className="flex gap-3">
+            <CardHeader onClick={() => setRepo(r)} className="flex gap-3">
               <Image
                 alt="nextui logo"
                 height={40}
@@ -25,9 +25,7 @@ export default function SearchRepoCard({
               />
               <div className="flex flex-col">
                 <p className="text-md">{r.name}</p>
-                <Link href={r.html_url}>
-                  <p className="text-small text-default-500">{r.html_url}</p>
-                </Link>
+                <p className="text-small text-default-500">{r.html_url}</p>
               </div>
             </CardHeader>
           </Card>

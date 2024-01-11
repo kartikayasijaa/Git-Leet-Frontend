@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import SearchRepoCard from "./SearchRepoCard";
 import SelectRepoBranch from "./SelectRepoBranch";
+import { FaGithub } from "react-icons/fa";
 
 const SearchGithubRepo: React.FC = () => {
 
@@ -52,7 +53,7 @@ const SearchGithubRepo: React.FC = () => {
 
   return (
     <>
-      <Button onPress={onOpen}>Connect your Repository</Button>
+      <Button className="w-[200px]" onPress={onOpen}>Connect your Repository</Button>
       <Modal
         size={"4xl"}
         isOpen={isOpen}
