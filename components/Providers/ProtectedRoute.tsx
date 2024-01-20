@@ -1,7 +1,6 @@
 "use client";
-import { refreshToken } from "@/app/actions";
 import { AccessTokenType } from "@/constants/types";
-import { REFRESH_TOKEN } from "@/constants/url";
+import { BASE_URL, REFRESH_COOKIE_NAME, REFRESH_TOKEN } from "@/constants/url";
 import useSession from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,22 +16,27 @@ export default function ProtectedRoute({
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    console.log(user)
     if (accessToken && accessToken.length > 1) {
       setShow(true);
       return;
     }
     (async () => {
-      const result = await refreshToken();
-      if (
-        !result.access_token ||
-        (result.access_token && result.access_token.length <= 0)
-      ) {
-        return;
+      try{
+        const res = await fetch(REFRESH_TOKEN, {
+          cache: 'no-store',
+          credentials: 'include',
+          mode: 'cors'
+        });
+        if (!res.ok){
+          throw new Error("Error fetching User Information")
+        }
+        const result = (await res.json() as AccessTokenType)
+        setAuth(result);
+        setShow(true);
+      } catch (err) {
+        router.push('/')
+        console.log(err)
       }
-
-      setAuth(result);
-      setShow(true);
     })();
   }, [accessToken]);
 

@@ -1,10 +1,10 @@
-export const BASE_URL = process.env.BASE_URL || `http://localhost:5001/api`;
-
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http"
 
 //Auth
 export const AUTH_BASE_URL = `${BASE_URL}/auth`
 export const GITHUB_AUTH_REDIRECT = `${AUTH_BASE_URL}/github`
 export const REFRESH_TOKEN = `${AUTH_BASE_URL}/refresh`
+export const REFRESH_COOKIE_NAME = process.env.NEXT_PUBLIC_REFRESH_COOKIE_NAME!
 
 //Leetcode
 export const LEETCODE_BASE_URL = `${BASE_URL}/leetcode`

@@ -1,11 +1,11 @@
-import { GITHUB_AUTH_REDIRECT } from "@/constants/url";
+import { GITHUB_AUTH_REDIRECT, REFRESH_COOKIE_NAME } from "@/constants/url";
 import { Button, Spinner } from "@nextui-org/react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
 const LoginButton: React.FC = () => {
   const cookie = cookies();
-  const token = cookie.get(process.env.REFRESH_COOKIE_NAME!)?.value || "";
+  const token = cookie.get(REFRESH_COOKIE_NAME)?.value || "";
   return (
     <>
       {token.length > 0 ? null : (
