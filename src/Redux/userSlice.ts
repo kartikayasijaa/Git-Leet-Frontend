@@ -61,7 +61,7 @@ export const updateLeetcode =
       const res = await fetch(UPDATE_LEETCODE, {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: accessToken,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),

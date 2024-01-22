@@ -10,7 +10,7 @@ export const pushToGithub = async ({
   try {
     const res = await fetch(`${PUSH_URL}/${userId}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: accessToken,
       },
     });
     if (!res.ok) {
