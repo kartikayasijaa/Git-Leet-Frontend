@@ -76,14 +76,14 @@ export const updateGithubRepo =
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const {
       user: {
-        user: { userId, github_repo },
+        user: { userId },
         accessToken,
       },
-      repo: { selectedBranch },
+      repo: { selectedBranch, selectedRepo },
     } = getState();
 
     const body = {
-      github_repo,
+      github_repo: selectedRepo.name,
       userId,
       github_repo_branch: selectedBranch,
     };
