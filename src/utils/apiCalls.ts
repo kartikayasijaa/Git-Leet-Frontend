@@ -1,3 +1,4 @@
+import { PushResponse } from "./types";
 import { PUSH_URL } from "./url";
 
 export const pushToGithub = async ({
@@ -17,7 +18,7 @@ export const pushToGithub = async ({
       const err = await res.json();
       throw new Error(err.error);
     }
-    const result = await res.json()
+    const result = await res.json() as PushResponse
     console.log(result)
     return result;
   } catch (error) {

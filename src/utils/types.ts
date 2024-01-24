@@ -81,3 +81,8 @@ export type LeetcodeResponse = {
   leetcode_username: string;
   leetcode_prev_submission: number;
 };
+
+export type PushResponse = {
+  message: string;
+  submissions: number;
+};
