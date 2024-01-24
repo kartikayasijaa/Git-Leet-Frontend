@@ -76,7 +76,6 @@ export interface SetRepoSearchAction extends ActionType {
 export interface SetLeetcodeAction extends ActionType {
   payload: LeetcodeResponse;
 }
-
 export type LeetcodeResponse = {
   message: string;
   leetcode_username: string;

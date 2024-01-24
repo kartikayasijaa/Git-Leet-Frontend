@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RepoSearchRes, RepoType, SetRepoSearchAction } from "../utils/types";
 import { AppDispatch, RootState } from "./store";
 import { REPO_SEARCH, UPDATE_GITHUB } from "../utils/url";
-import { setLoading } from "./userSlice";
+import { setLoading, setRepo } from "./userSlice";
 
 const repoSlice = createSlice({
   name: "repo",
@@ -105,6 +105,7 @@ export const updateGithubRepo =
         github_repo_branch: string;
       };
       console.log(data);
+      dispatch(setRepo(data.github_repo))
       if (cb) cb();
     } catch (error) {
       console.error("Error updating Github:", error);

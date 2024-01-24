@@ -34,11 +34,14 @@ export const userSlice = createSlice({
     setLeetcode: (state, action: SetLeetcodeAction) => {
       state.user.leetcode_username = action.payload.leetcode_username;
       state.user.leetcode_prev_submission = action.payload.leetcode_prev_submission;
+    },
+    setRepo : (state, action) => {
+      state.user.github_repo = action.payload;
     }
   },
 });
 
-export const { setRefreshToken, setLoading, setLeetcode } = userSlice.actions;
+export const { setRefreshToken, setLoading, setLeetcode, setRepo } = userSlice.actions;
 export default userSlice.reducer;
 
 export const updateLeetcode =
