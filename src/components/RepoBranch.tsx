@@ -8,6 +8,7 @@ import { setSelectedBranch } from "../Redux/repoSlice";
 
 const RepoBranch = () => {
   const { selectedRepo, selectedBranch } = useAppSelector((s) => s.repo);
+  const { accessToken } = useAppSelector((s) => s.user);
   const { cardVariant } = useCardVariant();
   const [branch, setBranch] = useState<BranchType[]>();
   const dispatch = useAppDispatch();
@@ -17,7 +18,12 @@ const RepoBranch = () => {
     (async () => {
       try {
         const res = await fetch(
-          selectedRepo.branches_url.replace("{/branch}", "")
+          selectedRepo.branches_url.replace("{/branch}", ""),
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         if (!res.ok) {
           throw new Error("Error fetching branches");
